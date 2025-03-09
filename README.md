@@ -29,3 +29,10 @@
     helpful for users. I will switch to FastAPI to scale.
 - Working through streamlit examples to understand how to create chat bot front end and its design
     options
+- Created basic streamlit chat bot setup
+- Editing application to load one pdf at a time before advancing on UI
+- UI is setup
+- Difficulty connecting backend to UI
+- going through data flow and writing the output at each stage
+- Using LLm to figure out but not much luck
+- looks like it only works when the app is first run. After a reload, it stops working. The data is not being cached correclty?
