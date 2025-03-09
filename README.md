@@ -22,3 +22,10 @@
 - I want to load PDFS. Started using PyPDFLoader. I need it for many files so found PyPDFDirectoryLoader
 - Went through all of tutorial and have a basic version working. Answered a question about Ra correctly
 - I'm realizing that if I have multiple games in context, its hard to decide which game the question is about.
+- Now to work on the front end to get this progress showing up nicely
+- wanting to go through streamlit documentation to understand the creative limits
+- Read up on streamlit: seems very basic and not scalable, but very easy to prototype something with
+    pretty decent ui. I think its worth going with this. If after some testing, the app seems to be
+    helpful for users. I will switch to FastAPI to scale.
+- Working through streamlit examples to understand how to create chat bot front end and its design
+    options
