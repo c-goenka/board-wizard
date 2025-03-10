@@ -6,6 +6,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 
 from langchain import hub
+from langchain_core.prompts import PromptTemplate
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -19,11 +20,21 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-prompt = hub.pull("rlm/rag-prompt")
+# prompt = hub.pull("rlm/rag-prompt")
+template = """You are a knowledgeable board game assistant, specializing in answering rule-related questions for the selected game. Use the provided context to give accurate and specific answers. If the information is not available, simply state that you don't know. Keep responses clear, concise, and directly relevant to the user's question, ensuring they can quickly understand how to proceed in their game..
+
+{context}
+
+Question: {question}
+
+Helpful Answer:"""
+board_wizard_prompt = PromptTemplate.from_template(template)
 
 if 'game_loaded' not in st.session_state:
     st.session_state.game_loaded = False
+if 'current_game' not in st.session_state:
     st.session_state.current_game = None
+if 'vector_store' not in st.session_state:
     st.session_state.vector_store = InMemoryVectorStore(embeddings)
 
 @st.cache_data
@@ -47,7 +58,7 @@ def load_game_rules(game_title: str):
         st.success(f"Rules for {game_title} loaded from cache")
         return True
 
-    file_path = f"./documents/{game_title.lower()}.pdf"
+    file_path = f"./rulebooks/{'-'.join(game_title.lower().split())}.pdf"
     if not os.path.exists(file_path):
         st.error(f"Rules for {game_title} not found")
         st.session_state.game_loaded = False
@@ -76,7 +87,7 @@ def retrieve(state: State):
 
 def generate(state: State):
     docs_content = "\n\n".join(doc.page_content for doc in state["context"])
-    messages = prompt.invoke({"question": state["question"], "context": docs_content})
+    messages = board_wizard_prompt.invoke({"question": state["question"], "context": docs_content})
     response = llm.invoke(messages)
     return {"answer": response.content}
 
@@ -87,6 +98,6 @@ graph = graph_builder.compile()
 
 def get_llm_response(question: str):
     if 'game_loaded' not in st.session_state or not st.session_state.game_loaded:
-        return "Please select a game first."
+        return "Please select a game to get started! I'm here to help with any rule-related questions."
     response = graph.invoke({"question": question})
     return response['answer']

@@ -37,4 +37,11 @@
 - Using LLm to figure out but not much luck
 - looks like it only works when the app is first run. After a reload, it stops working. The data is not being cached correclty?
 - accidentally push .env. used git commands to remove from history. added gitignore
-- 
+- fixed state persistance to store rag context after reloads
+- working app deployed with streamlit
+- want to add agent intro when game is selected and check if caching is working correctly
+- final touch features: fixed caching, added intro, clear chat when new game is selected, new example question,
+    early cache check, updated prompt, added additional games
+- weird bug where only sometimes the intro is displayed twice
+
+fixed caching, added intro, clear chat when new game is selected, new example question, early cache check, updated prompt, added additional games

@@ -7,31 +7,38 @@ st.markdown("Simply ask about any game scenario, and get clear, accurate explana
 
 st.divider()
 
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
 game_list = [
-    'Ra', 'Quacks'
+    'Carcassonne', 'Clank', 'Codenames', 'Earth', 'Forrest Shuffle',
+    'Jaipur', 'Love Letter', 'Quacks of Quedlinburg', 'Ra', 'Wingspan'
 ]
+
+game_index = None
+if 'current_game' in st.session_state and st.session_state.current_game:
+    game_index = game_list.index(st.session_state.current_game)
 
 game_selection = st.selectbox(
     "What game do you need assistance with?",
     game_list,
-    index=None,
+    index=game_index,
     placeholder="Select game"
 )
 
-if game_selection:
+if game_selection and ('current_game' not in st.session_state or game_selection != st.session_state.current_game):
     with st.spinner(f"Loading rules for {game_selection}..."):
         load_game_rules(game_selection)
+    intro_message = f"Ask me anything about {game_selection}, and I'll help you navigate the rules!"
+    st.session_state.messages = [{'role': 'assistant', 'content': intro_message}]
 
 st.divider()
-
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
 
 for message in st.session_state.messages:
     with st.chat_message(message['role']):
         st.markdown(message['content'])
 
-if prompt := st.chat_input("Example question: Which player goes first?"):
+if prompt := st.chat_input(f"How do I score points in {game_selection}?"):
     st.session_state.messages.append({'role': 'user', 'content': prompt})
     with st.chat_message('user'):
         st.markdown(prompt)
