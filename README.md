@@ -16,7 +16,7 @@ You can access the web application at https://boardwizard.streamlit.app!
 
 1. Clone the repository
 ```bash
-https://github.com/c-goenka/board-wizard.git
+git clone https://github.com/c-goenka/board-wizard.git
 ```
 
 2. Navigate into the project directory
@@ -38,12 +38,11 @@ pip install -r requirements.txt
 5. Set up environment variables
 - Create a .env file in the project root folder and add your API keys:
 ```
-
 OPENAI_API_KEY=your_openai_api_key
 LANGSMITH_API_KEY=your_langsmith_api_key
 ```
 
-4. Run the Streamlit aplication
+4. Run the Streamlit application
 ```bash
 streamlit run app.py
 ```
@@ -63,7 +62,7 @@ board-wizard/
 
 ## Supported Games
 
-- Carcassonne, Clank, Codenames, Earth, Forrest Shuffle, Jaipur, Love Letter, Quacks of Quedlinburg, Ra, Wingspan
+- Carcassonne, Clank, Codenames, Earth, Forrest Shuffle, Jaipur, Love Letter, Quacks of Quedlinburg, Ra, and Wingspan
 
 ### How to Add New Games
 
@@ -74,22 +73,22 @@ board-wizard/
 
 ## Technology Stack & Tool Selection
 
-### Streamlit (frontend)
+### Streamlit
 
 - Easy to prototype web applications with clean, intuitive user interfaces using only Python
 - Simple API with great documentation and a strong community offering example applications
 
-### Python (backend)
+### Python
 
 - Simple, readable syntax makes development accessible and efficient
 - Large community support and extensive AI/ML library ecosystem
 
-### LangChain (rag implementation)
+### LangChain
 
 - Comprehensive RAG framework with great documentation and tutorials
 - Customization and integration options for extensibility and advanced development
 
-### OpenAI (large language model)
+### OpenAI
 
 - Natural-sounding text responses and strong context understanding
 - Easy to set up and learn with well-documented API
@@ -97,42 +96,21 @@ board-wizard/
 
 ## Development Process and Reflections (INCOMPLETE)
 
-- Goal: Rag App that uses board game rules documents as context and answers user's questions about the game
-- Some setup issues with git, venv, and pip that took some ChatGPT and stackoverlfow to fix
-- Built simple Streamlit UI
-- Reading and understanding LangChain implementation
-- Current plan: build first version and test for one game. if it works well then add additional features
-- Going through the tutorial to implement the basic
-- I want to load PDFS. Started using PyPDFLoader. I need it for many files so found PyPDFDirectoryLoader
-- Went through all of tutorial and have a basic version working. Answered a question about Ra correctly
-- I'm realizing that if I have multiple games in context, its hard to decide which game the question is about.
-- Now to work on the front end to get this progress showing up nicely
-- wanting to go through streamlit documentation to understand the creative limits
-- Read up on streamlit: seems very basic and not scalable, but very easy to prototype something with
-    pretty decent ui. I think its worth going with this. If after some testing, the app seems to be
-    helpful for users. I will switch to FastAPI to scale.
-- Working through streamlit examples to understand how to create chat bot front end and its design
-    options
-- Created basic streamlit chat bot setup
-- Editing application to load one pdf at a time before advancing on UI
-- UI is setup
-- Difficulty connecting backend to UI
-- going through data flow and writing the output at each stage
-- Using LLm to figure out but not much luck
-- looks like it only works when the app is first run. After a reload, it stops working. The data is not being cached correclty?
-- accidentally push .env. used git commands to remove from history. added gitignore
-- fixed state persistance to store rag context after reloads
-- working app deployed with streamlit
-- want to add agent intro when game is selected and check if caching is working correctly
-- final touch features: fixed caching, added intro, clear chat when new game is selected, new example question,
-    early cache check, updated prompt, added additional games
-- weird bug where only sometimes the intro is displayed twice
-- fixed intro message ghosting
-- adding final documentation
+My goal was to create a RAG application that uses board game rulebooks as context to answer users’ questions. I ran into setup issues with Git, virtual environments, and dependencies, but with some help from ChatGPT and Stack Overflow, I got everything working. Once that was sorted, I began going through LangChain's RAG application documentation.
+
+My plan was to first test the app with one game before expanding. I initially used PyPDFLoader but switched to PyPDFDirectoryLoader to handle multiple files together. The basic version successfully answered questions about the game 'Ra', but I realized that when multiple games were in context, it was hard to determine which one the question referred to.
+
+For the frontend, I had heard about Streamlit from my brother as a great tool for prototyping, though limited for scaling. After looking into it, it seemed like a great tool for the job! I built a super simple Streamlit UI and gradually turned it into a full chatbot interface. Once I had user inputs working, I updated the app to load one PDF at a time based on the selected game.
+
+Connecting the backend to the UI was a bit difficult, especially with caching and state persistence. Debugging involved tracing the data flow at each step, and after a lot of trial and error, I finally got the RAG context to persist correctly. After that, When trying to make my GitHub repository public, I realized that I was accidentally pushing my .env file to GitHub and had to clean the repository history with some risky Git commands (lol).
+
+Once the core functionality was working, I deployed the app through Streamlit and added final touches: improved caching speed and feedback, automatic chat clearing when switching games, new example question, updated agent prompt, and support for additional games. There was one final bug, where the agent introduction was being displayed twice, and fixing it turned out to be surprisingly tricky since it required understanding how Streamlit reloads pages after changes. But after some Stack Overflow searching (and help from Claude), I figured out that I needed to manually rerun the app to properly clear old messages. With that, everything finally looked and worked as I had hoped!
 
 
 ## Future Work
 
+- User testing to gauge helpfulness of application
+- Gather feedback for improvements and continued development
 - Support for more board games
 - OCR image to text conversion using the Unstructured library
 - Voice input for more natural, hands-free usage
