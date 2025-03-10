@@ -36,3 +36,5 @@
 - going through data flow and writing the output at each stage
 - Using LLm to figure out but not much luck
 - looks like it only works when the app is first run. After a reload, it stops working. The data is not being cached correclty?
+- accidentally push .env. used git commands to remove from history. added gitignore
+- 

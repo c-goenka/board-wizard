@@ -10,14 +10,17 @@ st.divider()
 game_list = [
     'Ra', 'Quacks'
 ]
+
 game_selection = st.selectbox(
     "What game do you need assistance with?",
     game_list,
     index=None,
     placeholder="Select game"
 )
+
 if game_selection:
-    load_game_rules(game_selection)
+    with st.spinner(f"Loading rules for {game_selection}..."):
+        load_game_rules(game_selection)
 
 st.divider()
 
@@ -33,8 +36,11 @@ if prompt := st.chat_input("Example question: Which player goes first?"):
     with st.chat_message('user'):
         st.markdown(prompt)
 
-    response = get_llm_response(prompt)
-    ai_response = response if response else "I'm not sure. Try rephrasing your question."
+    with st.spinner("Thinking..."):
+        ai_response = get_llm_response(prompt)
+
+    if not ai_response:
+        ai_response = "I'm not sure. Try rephrasing your question."
 
     st.session_state.messages.append({'role': 'assistant', 'content': ai_response})
     with st.chat_message('assistant'):

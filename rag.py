@@ -19,20 +19,15 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-vector_store = InMemoryVectorStore(embeddings)
 prompt = hub.pull("rlm/rag-prompt")
 
+if 'game_loaded' not in st.session_state:
+    st.session_state.game_loaded = False
+    st.session_state.current_game = None
+    st.session_state.vector_store = InMemoryVectorStore(embeddings)
 
 @st.cache_data
-def load_game_rules(game_title: str=""):
-    file_path = f"./documents/{game_title.lower()}.pdf"
-    if not os.path.exists(file_path):
-        st.error(f"Rules for {game_title} not found")
-        return False
-
-    global vector_store
-    vector_store = InMemoryVectorStore(embeddings)
-
+def load_context(file_path):
     loader = PyPDFLoader(file_path)
     docs = loader.load()
 
@@ -41,8 +36,31 @@ def load_game_rules(game_title: str=""):
         chunk_overlap=200,
         add_start_index=True,
     )
-    all_splits = text_splitter.split_documents(docs)
-    vector_store.add_documents(documents=all_splits)
+    return text_splitter.split_documents(docs)
+
+
+def load_game_rules(game_title: str):
+    if not game_title:
+        return False
+
+    if 'game_loaded' in st.session_state and st.session_state.game_loaded and st.session_state.current_game == game_title:
+        st.success(f"Rules for {game_title} loaded from cache")
+        return True
+
+    file_path = f"./documents/{game_title.lower()}.pdf"
+    if not os.path.exists(file_path):
+        st.error(f"Rules for {game_title} not found")
+        st.session_state.game_loaded = False
+        st.session_state.current_game = None
+        return False
+
+    st.session_state.vector_store = InMemoryVectorStore(embeddings)
+    all_splits = load_context(file_path)
+    st.session_state.vector_store.add_documents(documents=all_splits)
+
+    st.session_state.game_loaded =  True
+    st.session_state.current_game = game_title
+
     st.success(f"Rules for {game_title} loaded successfully")
     return True
 
@@ -53,7 +71,7 @@ class State(TypedDict):
     answer: str
 
 def retrieve(state: State):
-    retrieved_docs = vector_store.similarity_search(state["question"])
+    retrieved_docs = st.session_state.vector_store.similarity_search(state["question"])
     return {"context": retrieved_docs}
 
 def generate(state: State):
@@ -68,5 +86,7 @@ graph_builder.add_edge(START, "retrieve")
 graph = graph_builder.compile()
 
 def get_llm_response(question: str):
+    if 'game_loaded' not in st.session_state or not st.session_state.game_loaded:
+        return "Please select a game first."
     response = graph.invoke({"question": question})
     return response['answer']
