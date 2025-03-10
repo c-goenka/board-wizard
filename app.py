@@ -38,7 +38,9 @@ for message in st.session_state.messages:
     with st.chat_message(message['role']):
         st.markdown(message['content'])
 
-if prompt := st.chat_input(f"How do I score points in {game_selection}?"):
+example_question = f"How do I score points in {game_selection}?" if game_selection else "How do I score points?"
+
+if prompt := st.chat_input(example_question):
     st.session_state.messages.append({'role': 'user', 'content': prompt})
     with st.chat_message('user'):
         st.markdown(prompt)
