@@ -4,6 +4,8 @@ Board Wizard is an AI-powered board game companion that helps players quickly fi
 
 You can access the web application at https://boardwizard.streamlit.app!
 
+![board-wizard-screenshot](https://github.com/user-attachments/assets/41eae8d6-a35a-47d8-b2b4-14ca5173aa9d)
+
 
 ## How It Works
 
@@ -73,15 +75,15 @@ board-wizard/
 
 ## Technology Stack & Tool Selection
 
-### Streamlit
-
-- Easy to prototype web applications with clean, intuitive user interfaces using only Python
-- Simple API with great documentation and a strong community offering example applications
-
 ### Python
 
 - Simple, readable syntax makes development accessible and efficient
 - Large community support and extensive AI/ML library ecosystem
+
+### Streamlit
+
+- Easy to prototype web applications with clean, intuitive user interfaces using only Python
+- Simple API with great documentation and a strong community offering example applications
 
 ### LangChain
 
@@ -94,7 +96,7 @@ board-wizard/
 - Easy to set up and learn with well-documented API
 
 
-## Development Process and Reflections (INCOMPLETE)
+## Development Process and Reflections
 
 My goal was to create a RAG application that uses board game rulebooks as context to answer users’ questions. I ran into setup issues with Git, virtual environments, and dependencies, but with some help from ChatGPT and Stack Overflow, I got everything working. Once that was sorted, I began going through LangChain's RAG application documentation.
 
