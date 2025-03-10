@@ -29,8 +29,10 @@ game_selection = st.selectbox(
 if game_selection and ('current_game' not in st.session_state or game_selection != st.session_state.current_game):
     with st.spinner(f"Loading rules for {game_selection}..."):
         load_game_rules(game_selection)
+    st.session_state.current_game = game_selection
     intro_message = f"Ask me anything about {game_selection}, and I'll help you navigate the rules!"
     st.session_state.messages = [{'role': 'assistant', 'content': intro_message}]
+    st.rerun()
 
 st.divider()
 

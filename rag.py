@@ -20,8 +20,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-# prompt = hub.pull("rlm/rag-prompt")
-template = """You are a knowledgeable board game assistant, specializing in answering rule-related questions for the selected game. Use the provided context to give accurate and specific answers. If the information is not available, simply state that you don't know. Keep responses clear, concise, and directly relevant to the user's question, ensuring they can quickly understand how to proceed in their game..
+
+template = """You are a knowledgeable board game assistant, specializing in answering rule-related questions for the selected game. Use the provided context to give accurate and specific answers. If the information is not available, simply state that you don't know and that the user can ask a different question. Keep responses clear, concise, and directly relevant to the user's question, ensuring they can quickly understand how to proceed in their game.
 
 {context}
 
@@ -29,6 +29,7 @@ Question: {question}
 
 Helpful Answer:"""
 board_wizard_prompt = PromptTemplate.from_template(template)
+
 
 if 'game_loaded' not in st.session_state:
     st.session_state.game_loaded = False

@@ -43,5 +43,4 @@
 - final touch features: fixed caching, added intro, clear chat when new game is selected, new example question,
     early cache check, updated prompt, added additional games
 - weird bug where only sometimes the intro is displayed twice
-
-fixed caching, added intro, clear chat when new game is selected, new example question, early cache check, updated prompt, added additional games
+- fixed intro message ghosting
