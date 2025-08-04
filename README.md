@@ -2,8 +2,6 @@
 
 Board Wizard is an AI-powered board game companion that helps players quickly find and understand rules without flipping through lengthy manuals. By selecting a game, users can ask questions about its rules, and Board Wizard retrieves relevant answers from official rulebooks using a Retrieval-Augmented Generation (RAG) model.
 
-You can access the web application at https://boardwizard.streamlit.app!
-
 ![board-wizard-screenshot](https://github.com/user-attachments/assets/41eae8d6-a35a-47d8-b2b4-14ca5173aa9d)
 
 
@@ -119,3 +117,7 @@ Once the core functionality was working, I deployed the app through Streamlit an
 - Download or view game rulebook
 - Game specific images and icons
 - Mobile app version
+
+---
+
+💛 Built with care by Chetan • [View Live Site](https://boardwizard.streamlit.app/)
