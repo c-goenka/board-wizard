@@ -119,5 +119,3 @@ Once the core functionality was working, I deployed the app through Streamlit an
 - Mobile app version
 
 ---
-
-💛 Built with care by Chetan • [View Live Site](https://boardwizard.streamlit.app/)
